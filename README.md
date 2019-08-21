@@ -31,7 +31,7 @@ request library:
 
 ## prediction
 - [x] input 64x64
-- [ ] input arbitrary size image
+- [ ] input/output arbitrary size image
 
 ## validataion
 - [x] PSNR
