@@ -1,0 +1,25 @@
+ssh onyen@longleaf.unc.edu
+
+cd "filepath to where your code is"
+
+(
+
+module add anaconda
+
+conda create --name xxxxx
+
+conda install pytorch
+
+conda install scikit-image
+
+)
+
+nano xxxxxx.sh
+
+sbatch xxxxx.sh
+
+squeue -u ruiyan 
+
+sinfo
+
+Scancel
