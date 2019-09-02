@@ -1,0 +1,57 @@
+{
+
+    "name"          :   "LE_X2_HE",
+    "data"          :   {
+                            "type"           :   "FolderDataManager", 
+                            "base_path"      :   "E:/mitochondrial/Mito-SIM/LE_X2_HE_X2_Batch32", 
+                            "data_in_path"   :   "E:/mitochondrial/Mito-SIM/LE_X2/",
+                            "data_out_path"  :   "E:/mitochondrial/Mito-SIM/HE_X2/",
+                            "save_lost_file" :   "E:/mitochondrial/Mito-SIM/LE_X2_HE_X2_Batch32/loss_LE_X2_HE_X2_0829.xls",
+                            "save_model_file":   "E:/mitochondrial/Mito-SIM/LE_X2_HE_X2_Batch32/LE_X2_HE_X2_0829.pkl",
+                            
+                            "format"    :   "image", 
+                            "loader"    :   { 
+                                                "shuffle"       : true,
+                                                "batch_size"    : 16,
+                                                "num_workers"   : 4,
+                                                "drop_last"     : true
+                                            },
+                            "splits"    :   { 
+                                                "train" : 0.7, 
+                                                "val"   : 0.2,
+                                                "test"  : 0.1        
+                                            }
+                        },
+    "transforms"    :   { 
+                            "type"      :   "ImageTransforms",
+                            "args"      :   {
+                                                "size"          : 224,
+                                                "scale"         : [0.08, 1.0],
+                                                "ratio"         : [0.75, 1.333],
+                                                "colorjitter"         : [0.2,0.2,0.2]
+                                            }
+                        },
+    "optimizer"     :   {
+                            "type"      :   "Adam",
+                            "args"      :   {
+                                                "lr"            : 0.0005,
+                                                "weight_decay"  : 0,
+                                                "amsgrad"       : false
+                                            }
+                        },
+    "model"         :   { 
+                            "type"      :   "VGG16"
+                        },
+    "train"         :   { 
+                            "loss"      :   "cross_entropy",
+                            "epochs"    :   100,
+                            "save_dir"  :   "saved/",
+                            "save_p"    :   1,
+                            "verbosity" :   2,
+                            
+                            "monitor"   :   "min val_loss",
+                            "early_stop":   10,
+                            "tbX"       :   true
+                        },
+    "metrics"       :   "classification_metrics" 
+}
