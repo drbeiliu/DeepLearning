@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 model_dict = {
     '''name:[".pkl name(not adding date)", data_in_normalization, data_out_normalization, train_in_size, mix_in_image(AVG or MAX)]'''
     "LE_HE":["LE_HE",206.0,8029.0,15,None],
-    "LE_HE_enlarge":["LE_HE",190.0,8029.0,15,None],
+    "LE_HE_enlarge":["LE_X2_HE_X2",190.0,8029.0,15,None],
     "LE_HER":["LE_X2_HER",190.0,8029.0,15,None],
     "HE_HER": ["HE_X2_HER",5542.0,8029.0,15,None],
     "HE_3_HER":["HE_X2_3f_HER",5542.0,8029.0,3,None],
