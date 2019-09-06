@@ -10,7 +10,23 @@ We adopt UNet to serve the purpose of SIM and SRRF reconstruction, particularly 
 3. srUNet could do SRRF with as low as 5 frames, instead of 200 frames
 4. snrUNet could recover images from raw data with extreme low photon budgets (low SNR)
 5. srUNet + snrUNet could restore SR images from low SNR SI raw data or TIRF timelapse data
+   
+Specifically, we have trained xx models with differnet input and groud truth:
+SE: short exposure; LE: long exposure;
 
+Model #             |Input                        |           Ground truth
+---                 |---                          |--- 
+1. srU-Net          |15 Raw SIM                   | single SIM reconstruction
+2. srU-Net          |3 Raw SIM                    | single SIM reconstruction
+3. srU-Net          |3 Raw SIM + 1 WF/Avg         | single SIM reconstruction
+4. srU-Net          |15 Raw SIM (2X)              | single SIM reconstruction
+5. srU-Net          |3 Raw SIM (2X)               | single SIM reconstruction
+6. srU-Net          |3 Raw SIM + 1 WF/Avg (2X)    | single SIM reconstruction
+7. snrU-Net         |SE                           | LE
+8. W-Net (ResNet)   |SE                           | single SIM reconstcution
+9. W-Net (DenseNet) |SE                           | single SIM reconstcution
+
+All models have been trained with four different cellular structures, including **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
 
 # Software package
 request library:
