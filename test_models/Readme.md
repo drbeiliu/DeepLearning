@@ -1,4 +1,6 @@
-Example of using 15 images HER
+python3 main.py -h for help
+
+Example of using 15 images HER:
 
 python3 main.py --model 'HER_15' --save_name DIR_NAME --model_dict_HE PATH --input_HE PATH --in_norm_HE FLOAT --out_norm_HE FLOAT --notafterLEPred
 
