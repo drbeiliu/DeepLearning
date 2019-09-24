@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-from test_all import LE_HEtest,HERtest,model_dict
+from test_all import LE_HEtest,HERtest,model_dict,save_as_xlsx, save_as_xlsx_le_he
 
 '''
 Example of using 15 images HER
@@ -17,6 +17,8 @@ parser.add_argument('--model_dict_HE', type=str, help='path of HE_HER model to t
 parser.add_argument('--model_dict_LE', type=str, help='path of LE_HE model to test')
 parser.add_argument('--input_LE',type=str, help='path of LE_HE images to test')
 parser.add_argument('--input_HE',type=str, help='path of HE_HER images to test')
+parser.add_argument('--input_gt_HE',type=str, help='path of ground truth images to test')
+parser.add_argument('--input_gt_HER',type=str, help='path of ground truth images to test')
 parser.add_argument('--in_norm_LE',type=float, help='Input normalization of LE')
 parser.add_argument('--out_norm_LE',type=float, help='Output normalization of LE')
 parser.add_argument('--in_norm_HE',type=float, help='Input normalization of HE')
@@ -33,6 +35,7 @@ opt = parser.parse_args()
 name = opt.model
 names = ['LE_HE', 'HER_15','HER_3','HER_4_AVG','HER_4_MIX']
 batch_size = opt.batch_size
+assert (opt.input_gt_HE != None or opt.input_gt_HER != None)
 
 if name == 'LE_HE':
     LE_HEtest(
@@ -43,6 +46,9 @@ if name == 'LE_HE':
         out_norm=opt.out_norm_LE,
         enlarged=opt.enlarge,
         batch_size=opt.batch_size)
+    # generate scores    
+    gt_path_he = opt.input_gt_HE
+    save_as_xlsx_le_he(name, gt_path_he, opt.enlarge)
 elif name[:3] == 'HER':
     par = name.split('_')
     assert (len(par)==2 or len(par)==3)
@@ -54,6 +60,8 @@ elif name[:3] == 'HER':
         mix_in = par[2]
     else:
         mix_in = None
+    
+    #check if it is after LE_HE prediction
     if opt.afterLEPred:
         result_dict = LE_HEtest(
             state_dict_path = opt.model_dict_LE,
@@ -63,19 +71,30 @@ elif name[:3] == 'HER':
             out_norm=opt.out_norm_LE,
             enlarged=opt.enlarge,
             batch_size=opt.batch_size)
+        #store the first result in xlsx
+        gt_path_he = opt.input_gt_HE
+        save_as_xlsx_le_he(name, gt_path_he, True)
+        he_path = None
     else:
         result_dict = None
-        HERtest(
-            state_dict_path=opt.model_dict_HE,
-            input_dir_path = opt.input_HE,
-            name=opt.save_name,
-            in_norm = opt.in_norm_HE,
-            out_norm=opt.out_norm_HE,
-            train_in_size = train_in_size,
-            mix_in = mix_in,
-            afterLEPred=opt.afterLEPred,
-            le_dict = result_dict,
-            batch_size=opt.batch_size)
+        he_path = opt.input_HE
+
+    gt_path_her = opt.input_gt_HER
+    HERtest(
+        state_dict_path=opt.model_dict_HE,
+        input_dir_path = he_path,
+        name=opt.save_name,
+        in_norm = opt.in_norm_HE,
+        out_norm=opt.out_norm_HE,
+        train_in_size = train_in_size,
+        mix_in = mix_in,
+        afterLEPred=opt.afterLEPred,
+        le_dict = result_dict,
+        batch_size=opt.batch_size)
+    if opt.afterLEPred:
+        save_as_xlsx(name, True, True, gt_path_her, opt.input_LE)
+    else: 
+        save_as_xlsx(name, False, True, gt_path_her, opt.input_HE)
 else:
     print("model name not allowed.", names)
 # def HERtest(stat_dict_path,input_dir_path，name, in_norm,out_norm,train_in_size=15,mix_in=None,afterLEPred=False,le_dict=None,batch_size=1)

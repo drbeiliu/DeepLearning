@@ -194,6 +194,7 @@ def LE_HEtest(state_dict_path,input_dir_path, name,in_norm,out_norm,enlarged,bat
     model.load_state_dict(torch.load(state_dict_path))
     model.eval()
     
+    result_dict = {}
     for batch_idx, items in enumerate(test_dataloader):
         image = items['image_in']
         image_name = items['image_name']
@@ -221,3 +222,218 @@ def LE_HEtest(state_dict_path,input_dir_path, name,in_norm,out_norm,enlarged,bat
             result_dict[filepath].append(np.reshape(image.detach().cpu().numpy(),(in_size,in_size)))
             io.imsave(image_name,image.detach().cpu().numpy().astype(np.uint32))
     return  result_dict
+
+
+
+def psnr(img1, img2):
+    img1 = (img1/np.amax(img1))*255
+    img2 = (img2/np.amax(img2))*255
+    mse = np.mean( (img1 - img2) ** 2 )
+    if mse == 0:
+        return 100
+    PIXEL_MAX = 255.0
+    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
+
+def nrmse(img_gt, img2, type="sd"):
+    
+    mse = np.mean( (img_gt - img2) ** 2 )
+    rmse = math.sqrt(mse)
+    
+    if type == "sd":
+        nrmse = rmse/np.std(img_gt)
+    if type == "mean":
+        nrmse = rmse/np.mean(img_gt)
+    if type == "maxmin":
+        nrmse = rmse/(np.max(img_gt) - np.min(img_gt))
+    if type == "iq":
+        nrmse = rmse/ (np.quantile(img_gt, 0.75) - np.quantile(img_gt, 0.25))
+    if type not in ["mean", "sd", "maxmin", "iq"]:
+        print("Wrong type!")
+    return nrmse
+
+
+
+def ssim(img1, img2, data_range = None):
+    
+    #if img2.min() < 0:
+    #   img2 += abs(img2.min())
+    
+    img2 = (img2/img2.max()) * img1.max()
+    #img1 = (img1/img1.max()) * 255
+    
+    if data_range is None:
+        score = compare_ssim(img1, img2)
+    else:
+        score = compare_ssim(img1, img2, data_range = data_range)
+    return score
+
+def getFileNames(dirname):
+    file_name = sorted(os.listdir(dirname))
+    return file_name
+
+def score4all_HER(model_name, is_afterLEpred, is_enlarged, gt_path_her,input_path):
+    if is_afterLEpred:
+        folder1516 = "predictions/LE_HE/pred_X2"
+        folder_her_pred = "predictions/"+model_name+"_afterLEpred"
+    else:
+        folder1516 = input_path
+        folder_her_pred = "predictions/"+model_name
+
+
+    set_names = []
+    psnr1 = []
+    psnr2 = []
+    psnr3 = []
+    nrmse1 = []
+    nrmse2 = []
+    nrmse3 = []
+    ssim1 = []
+    ssim2 = []
+    ssim3 = []
+
+    her_all = getFileNames(gt_path_her) #get all the image names in HER
+
+    for name in her_all:
+        #paths for each pair of files
+        her_path = os.path.join(gt_path_her,name)
+        her_pred_path = os.path.join(folder_her_pred,name[:-4]+"_pred.tif")
+        img15_path = os.path.join(folder1516,name[:-4], "HE_15.tif")
+        img16_path = os.path.join(folder1516,name[:-4], "HE_16.tif")
+        
+
+        #read the image
+        her =  Image.open(her_path)
+        her = np.array(her)
+        min = np.quantile(her, 0.01)
+        max = np.quantile(her, 0.998)
+        her = (her - min)/(max - min)
+        
+        her_pred =  Image.open(her_pred_path)
+        her_pred = np.array(her_pred)
+        min = np.quantile(her_pred, 0.01)
+        max = np.quantile(her_pred, 0.998)
+        her_pred = (her_pred - min)/(max - min)
+        
+        img15 =  Image.open(img15_path)
+        img15 = np.array(img15)
+        min = np.quantile(img15, 0.01)
+        max = np.quantile(img15, 0.998)
+        img15 = (img15 - min)/(max - min)
+        
+        img16 =  Image.open(img16_path)
+        img16 = np.array(img16)
+        min = np.quantile(img16, 0.01)
+        max = np.quantile(img16, 0.998)
+        img16 = (img16 - min)/(max - min)
+        
+        #calculate scores
+        set_names.append(name[:-4])
+#       psnr1.append(psnr(her_pred, her_pred))
+#       psnr2.append(psnr(img15, her_pred))
+#       psnr3.append(psnr(img16, her_pred))
+        psnr1.append(psnr(her, her_pred))
+        psnr2.append(psnr(her, img15))
+        psnr3.append(psnr(her, img16))
+#       nrmse1.append(nrmse(her, her_pred))
+#       nrmse2.append(nrmse(img15, her_pred))
+#       nrmse3.append(nrmse(img16, her_pred))
+        nrmse1.append(nrmse(her, her_pred))
+        nrmse2.append(nrmse(her, img15))
+        nrmse3.append(nrmse(her, img16))
+#       ssim1.append(ssim(her, her_pred, data_range = her.max()))
+#       ssim2.append(ssim(img15, her_pred, data_range = img15.max()))
+#       ssim3.append(ssim(img16, her_pred, data_range = img16.max()))
+        ssim1.append(ssim(her, her_pred, data_range = her.max()))
+        ssim2.append(ssim(her, img15, data_range = her.max()))
+        ssim3.append(ssim(her, img15, data_range = her.max()))
+    
+    return set_names, psnr1, psnr2, psnr3, nrmse1, nrmse2, nrmse3, ssim1, ssim2, ssim3
+
+
+
+def save_as_xlsx(model_name, is_afterLEpred, is_enlarged, gt_path_her, input_path):
+    # Create a Pandas dataframe from the data.
+    set_names, psnr1, psnr2, psnr3, nrmse1, nrmse2, nrmse3, ssim1, ssim2, ssim3 = score4all_HER(model_name, is_afterLEpred, is_enlarged, gt_path_her, input_path)
+    
+    df_psnr = pd.DataFrame({'Img': set_names,
+                           'With HER_pred': psnr1,
+                           'With HE_AVG': psnr2,
+                           'With HE_MAX': psnr3})
+    df_nrmse = pd.DataFrame({'Img': set_names,
+                            'With HER_pred': nrmse1,
+                            'With HE_AVG': nrmse2,
+                            'With HE_MAX': nrmse3})
+    df_ssim = pd.DataFrame({'Img': set_names,
+                           'With HER_pred': ssim1,
+                           'With HE_AVG': ssim2,
+                           'With HE_MAX': ssim3})
+    
+
+    # Create a Pandas Excel writer using XlsxWriter as the engine.
+    if not os.path.exists("scores"):
+        os.makedirs("scores")
+    if is_afterLEpred:
+        xlsx_path = os.path.join("scores/"+ model_name +"_afterLEpred")
+    else:
+        xlsx_path = os.path.join("scores/"+ model_name)
+    writer = pd.ExcelWriter(xlsx_path + '.xlsx', engine='xlsxwriter')
+    
+
+    # Convert the dataframe to an XlsxWriter Excel object.
+    df_psnr.to_excel(writer, sheet_name='PSNR')
+    df_nrmse.to_excel(writer, sheet_name='NRMSE')
+    df_ssim.to_excel(writer, sheet_name='SSIM')
+    
+    # Close the Pandas Excel writer and output the Excel file.
+    writer.save()
+
+def save_as_xlsx_le_he(model_name, gt_path, is_enlarged):
+    
+
+    her_all = getFileNames(gt_path)
+    set_names = []
+    psnr_ = []
+    nrmse_ = []
+    ssim_ = []
+    
+    for sample in her_all:
+        if is_enlarged or (model_name != "LE_HE") :
+            he_path = os.path.join(gt_path, sample,"HE_15.tif")
+        else:
+            he_path = os.path.join(gt_path, sample,"HE_15.tif")
+        
+        if model_name == "LE_HE":
+            pred_path = "LE_HE/pred"
+            name = "LE_HE"
+        else:
+            pred_path = "LE_HE/pred_X2"
+            name = "LE_HE_enlarge"
+
+
+        he_pred_path = os.path.join("predictions",pred_path, sample,"HE_15.tif")
+                    
+        
+        he = Image.open(he_path)
+        he = np.array(he)
+        he_pred = Image.open(he_pred_path)
+        he_pred = np.array(he_pred)
+        
+        set_names.append(sample)
+        psnr_.append(psnr(he,he_pred))
+        nrmse_.append(nrmse(he,he_pred))
+        ssim_.append(ssim(he,he_pred))
+
+    df = pd.DataFrame({'Img': set_names,
+                      'PSNR': psnr_,
+                      'NRMSE': nrmse_,
+                      'SSIM': ssim_})
+    
+    writer = pd.ExcelWriter("scores/"+ name + '.xlsx', engine='xlsxwriter')
+    
+    
+    # Convert the dataframe to an XlsxWriter Excel object.
+    df.to_excel(writer, sheet_name='HE_AVG')
+
+    
+    # Close the Pandas Excel writer and output the Excel file.
+    writer.save()
