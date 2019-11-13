@@ -12,6 +12,7 @@
 
 ```Shell
 3. module add anaconda
+   module save
 ```
 >Discription
 
