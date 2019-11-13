@@ -25,8 +25,7 @@ All models have been trained with four different cellular structures, including 
 
 ## Folders organization
 
-Folder            |Discription                      
----                 |---                       
+Folder              |Discription                      
 1. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.
 2. Prepare_dataset  | Set up traning dataset folders and crop raw images to smaller patches
 3. Longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)
