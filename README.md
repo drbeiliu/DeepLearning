@@ -13,22 +13,23 @@ We adopt UNet to serve the purpose of SIM and SRRF reconstruction, particularly 
    
 Specifically, we have trained 4 models with differnet input and groud truth:
 
-Model #             |Input                        |           Ground truth
----                 |---                          |--- 
-1. U-Net-SIM15      |fifteen SIM raw data                  | single SIM reconstruction
-2. U-Net-SIM3       |three SIM raw data                    | single SIM reconstruction
-3. scU-Net          |fifteen SIM raw data (low light)       | single SIM reconstruction (normal light)
-4. U-Net-SRRF5      |five TIRF images              | SRRF reconstruction from 200 frames
+|Model #             |Input                        |           Ground truth    |
+|---                 |---                          |--- |
+|1. U-Net-SIM15      |fifteen SIM raw data                  | single SIM reconstruction |
+|2. U-Net-SIM3       |three SIM raw data                    | single SIM reconstruction |
+|3. scU-Net          |fifteen SIM raw data (low light)       | single SIM reconstruction (normal light) |
+|4. U-Net-SRRF5      |five TIRF images              | SRRF reconstruction from 200 frames |
 
 
 All models have been trained with four different cellular structures, including **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
 
 ## Folders organization
 
-Folder              |Discription                      
-1. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.
-2. Prepare_dataset  | Set up traning dataset folders and crop raw images to smaller patches
-3. Longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)
-4. test_models | codes for both training and testing
+|Folder              |Discription   |
+| --- | --- |                   
+|1. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.|
+|2. Prepare_dataset  | Set up traning dataset folders and crop raw images to smaller patches|
+|3. Longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
+|4. test_models | codes for both training and testing|
 
 
