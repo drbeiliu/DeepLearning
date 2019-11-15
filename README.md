@@ -27,9 +27,15 @@ All models have been trained with four different cellular structures, including 
 
 |Folder              |Discription   |
 | --- | --- |                   
-|1. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.|
-|2. Prepare_dataset  | Set up traning dataset folders and crop raw images to smaller patches|
-|3. Longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
-|4. test_models | codes for both training and testing|
+|1. Data_preprocessing| Python codes to prepare datasets, calculates psnr, nrmse, etc|
+|2. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.|
+|3. Testing_codes| Codes for the testing of differenct networks|
+|4. Testing_data| Raw data for the testing of microtubule networks|
+|5. Training_data| Raw data for the testing of microtubule networks|
+|6. longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
+|7. test_json| use .json file to configure the training/testing parameters (under construction)
+|8. test_models | codes for both training and testing|
+
+
 
 
