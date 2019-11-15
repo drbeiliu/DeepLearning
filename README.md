@@ -31,7 +31,7 @@ All models have been trained with four different cellular structures, including 
 |2. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.|
 |3. Testing_codes| Codes for the testing of differenct networks|
 |4. Testing_data| Raw data for the testing of microtubule networks|
-|5. Training_data| Raw data for the testing of microtubule networks|
+|5. Training_data| Codes for the training of differenct networks|
 |6. longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
 |7. test_json| use .json file to configure the training/testing parameters (under construction)
 |8. test_models | codes for both training and testing|
