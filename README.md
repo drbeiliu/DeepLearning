@@ -5,11 +5,6 @@ Super-resolution optical fluctuation imaging (SOFI) [7](https://www.ncbi.nlm.nih
 
 We adopt deep learning to serve the purpose of SIM (DL-SIM) and SRRF (DL-SRRF) reconstruction, particularly with reduced number of frames. We could also restore high resolution information from raw data with extreme low photon budgets. 
 
-1. srUNet serve as an engine to perform SIM and SRRF reconstructions
-2. srUNet could do SIM reconstruction with 4 frames, instead of 9 or 15 frames
-3. srUNet could do SRRF with as low as 5 frames, instead of 200 frames
-4. snrUNet could recover images from raw data with extreme low photon budgets (low SNR)
-5. srUNet + snrUNet could restore SR images from low SNR SI raw data or TIRF timelapse data
    
 Specifically, we have trained 4 models with differnet input and groud truth:
 
@@ -20,6 +15,10 @@ Specifically, we have trained 4 models with differnet input and groud truth:
 |3. scU-Net          |fifteen SIM raw data (low light)       | single SIM reconstruction (normal light) |
 |4. U-Net-SRRF5      |five TIRF images              | SRRF reconstruction from 200 frames |
 
+1. DL-SIM and DL-SRRF serve as an engine to perform SIM and SRRF reconstructions
+2. U-Net-SIM could do SIM reconstruction with as few as 3 frames, instead of 9 or 15 frames
+3. U-Net-SRRF could do SRRF with as low as 5 frames, instead of 200 frames
+4. scU-Net  could recover images from raw data with extreme low photon budgets (low SNR)
 
 All models have been trained with four different cellular structures, including **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
 
@@ -56,7 +55,17 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 - 
 
 
-## Installation Guide;
+## 0. Installation Guide;
 
-1. Download and install Anaconda following the instructions [online](https://www.anaconda.com/distribution/). 
+1. Download and install Anaconda follow the instructions [online](https://www.anaconda.com/distribution/). 
+2. XXX
+3. XXX
+4. XXX
 
+## 1. Prepare training dataset
+
+## 2. Train a network
+
+## 3. Validate on real samples
+
+## 4. Troubleshooting
