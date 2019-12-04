@@ -33,7 +33,7 @@ All models have been trained with four different cellular structures, including 
 |5. Training_data| Codes for the training of differenct networks|
 |6. longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
 |7. test_json| use .json file to configure the training/testing parameters (under construction)
-|8. test_models | codes for both training and testing|
+|8. test_models | codes for both training and testing (under construction)|
 
 
 ## System Requirements
@@ -169,4 +169,8 @@ The resolution of each cropped image was estimated using the ImageDecorrleationA
     Step 9: Expected output was prepared in the folder “Testing_results”
 
 
-## 5. Troubleshooting
+## 5. Training time estimation
+
+Typicaly, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch.
+
+Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting in the time to read the model).
