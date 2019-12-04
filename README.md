@@ -78,13 +78,14 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 	conda install -c anaconda pandas
     ~~~
 4. Download ImageJ/Fiji
+  
    https://imagej.net/Fiji/Downloads
 
 ## 1. Prepare training dataset
 
 ### data augmentation
 
-In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (width x height x frame). To prepare the input for U-Net-SIM15, the raw stack was cropped into 128 × 128 × 15 (width x height x frame) patches. For U-Net-SIM3, only the first phase of three illumination angles were used, producing 128 × 128 pixels × 3 frames patches. In SRRF experiment, the original input images were cropped into 64 × 64 × 5 (width x height x frame) and the original ground truth images were cropped into 320 × 320 (width x height). Since U-Net requires the width and height of the input images to match the ground truth images, we resized the input dataset using the biocubic interpolation function of Fiji.
+In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (w x h x f, width x height x frame). To prepare the input for U-Net-SIM15, the raw stack was cropped into 128 × 128 × 15 (w x h x f) patches. For U-Net-SIM3, only the first phase of three illumination angles were used, producing 128 × 128 × 3 (w x h x f) patches. In SRRF experiment, the original input images were cropped into 64 × 64 × 5 (w x h x f) and the original ground truth images were cropped into 320 × 320 (w x h). Since U-Net requires the width and height of the input images to match the ground truth images, we resized the input dataset using the biocubic interpolation function of Fiji.
 
 *SIM_prepare_dataset.py*: This file is used to do dataset cropping for the SIM experiment.
 
@@ -93,7 +94,7 @@ In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (width 
 ### data normalization
 Normalization is also important to the efficiency and robustness of the network. We normalized the input images to the maximum intensity (MI) of the whole input dataset and the ground truth images to the MI of the SIM reconstruction dataset. 
 
-*datarage.py*: This file is be used to determine the intensity ranges of your own dataset. The value of max_in and max_out will be used to normalize the datasets.
+*datarange.py*: This file is be used to determine the intensity ranges of your own dataset. The value of max_in and max_out will be used to normalize the datasets.
 
 ###	Separate dataset
 After dataset augmentation, we obtained 800-1500 samples for different structures, which were then randomly divided into training, validation and testing subsets. Detailed information about each dataset is in Supplementary Table 1 of our manuscript.
