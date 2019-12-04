@@ -47,7 +47,7 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 - Memory: 128 Gb
 - Graphics card: Nvidia GeForce GTX1080 Ti, 11 Gb memory
 
-*Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access it for free with limitations. See instructions [here](). 
+*Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access it for free with limitations. See Demo [here](https://colab.research.google.com/drive/146rmMBtNqP-vQl_Z3cNaUCfvJlg5Befi#scrollTo=YPZT2dR3o02P). 
 
 ### Python Dependencies
 - Anaconda3-4.7.12
