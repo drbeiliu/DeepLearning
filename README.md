@@ -47,7 +47,7 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 - Memory: 128 Gb
 - Graphics card: Nvidia GeForce GTX1080 Ti, 11 Gb memory
 
-*Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access it for free with limitations. See Demo [here](https://colab.research.google.com/drive/146rmMBtNqP-vQl_Z3cNaUCfvJlg5Befi#scrollTo=YPZT2dR3o02P). 
+*Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access google colab for free with time limitations. [here](https://colab.research.google.com/drive/146rmMBtNqP-vQl_Z3cNaUCfvJlg5Befi#scrollTo=YPZT2dR3o02P). 
 
 ### Python Dependencies
 - Anaconda3-4.7.12
@@ -169,8 +169,9 @@ The resolution of each cropped image was estimated using the ImageDecorrleationA
     Step 9: Expected output was prepared in the folder “Testing_results”
 
 
-## 5. Training time estimation
+## 5. Time estimation
+Installing and configuring the python enviroment take about 1 hour. It may vary depending on the speed of the network. 
 
-Typicaly, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch.
+Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. It may vary depending on the sample size, batch size and the frequency to save the intermediate models. 
 
-Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting in the time to read the model).
+Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting in the time to load the model).
