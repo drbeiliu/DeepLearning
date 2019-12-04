@@ -15,6 +15,8 @@ Specifically, we have trained 4 models with differnet input and groud truth:
 |3. scU-Net          |fifteen SIM raw data (low light)       | single SIM reconstruction (normal light) |
 |4. U-Net-SRRF5      |five TIRF images              | SRRF reconstruction from 200 frames |
 
+## Keys
+
 1. DL-SIM and DL-SRRF serve as an engine to perform SIM and SRRF reconstructions
 2. U-Net-SIM could do SIM reconstruction with as few as 3 frames, instead of 9 or 15 frames
 3. U-Net-SRRF could do SRRF with as low as 5 frames, instead of 200 frames
@@ -37,7 +39,7 @@ All models have been trained with four different cellular structures, including 
 
 
 ## System Requirements
-DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regular PC and Google Colab. 
+DL-SIM and DL-SRRF packages have been tested on both a cluster, a regular PC and Google Colab. 
 ### Hardware requirements
 *Cluster*: we use the Longleaf cluster (Linux-based) on UNC-Chapel Hill campus. The detailed information can be found [here](https://its.unc.edu/research-computing/longleaf-cluster/). 
 
@@ -92,7 +94,7 @@ In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (w x h 
 *SRRF_prepare_dataset.py*: This file is used to do dataset cropping for the SRRF experiment.
 
 ### data normalization
-Normalization is also important to the efficiency and robustness of the network. We normalized the input images to the maximum intensity (MI) of the whole input dataset and the ground truth images to the MI of the SIM reconstruction dataset. 
+We normalized the input images to the maximum intensity (MI) of the whole input dataset and the ground truth images to the MI of the SIM reconstruction dataset. 
 
 *datarange.py*: This file is be used to determine the intensity ranges of your own dataset. The value of max_in and max_out will be used to normalize the datasets.
 
@@ -102,7 +104,7 @@ After dataset augmentation, we obtained 800-1500 samples for different structure
 ## 2. Train a network
 
 ### 2.1 U-Net
-For the details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
+The details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
 
 Files below are used for the training of four different networks in the paper:
 
@@ -117,13 +119,17 @@ Files below are used for the testing of four different networks in the paper:
     2. testing_U-Net-SIM15.py;
     3. testing_U-Net-SNR.py; 
     4. testing_U-Net-SRRF.py: 
-**please modify data pathes and data ranges in the code before use**
+**please modify file pathes and data ranges in the code before use**  
 
-For *train_U-Net-SIM3.py*, *train_U-Net-SIM15.py* and *train_U-Net-SNR.py*, in class *ReconsDataset(*torch.utils.data.Dataset*)* , change the value of max_out, max_in and train_in_size. The value of  train_in_size is the number of channels of the input. Before use *train _U-Net-SRRF.py*, please use *SRRF_prepare_dataset.py* to generate the Max_intensity.npy for your dataset. 
+how to --->
+
+ *train_U-Net-SIM3.py*, *train_U-Net-SIM15.py* and *train_U-Net-SNR.py* :
+ 
+ In class *ReconsDataset(*torch.utils.data.Dataset*)* , change the value of max_out, max_in and train_in_size. The value of  train_in_size is the number of channels of the input. Before use *train _U-Net-SRRF.py*, please use *SRRF_prepare_dataset.py* to generate the Max_intensity.npy for your dataset. 
 
 ### 2.2 scU-Net
 
-For the details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
+The details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
 
 Files below are used for the training of scU-Net in the paper:
 
@@ -139,7 +145,7 @@ Files below are used for the testing of scU-Net in the paper:
 
 RSP and RSE were introduced before to assess the quality of super-resolution data and were calculated using NanoJ-NanoJ-SQUIRREL (https://bitbucket.org/rhenriqueslab/nanoj-squirrel/wiki/Home). 
 
-The resolution of each cropped image was estimated using the ImageDecorrleationAnalysis plugin in Fiji/ImageJ with the default parameter settings.
+The resolution of each cropped image was estimated using the ImageDecorrleationAnalysis plugin in Fiji/ImageJ with the default parameter settings. [12](https://www.nature.com/articles/s41592-019-0515-7)
 
 *Peak signal-to-noise ratio (PSNR)*, *normalized root-mean-square error (NRMSE)* and *structural similarity index (SSIM)* were calcualted with a home-writtin script (*performance.py*). 
 
