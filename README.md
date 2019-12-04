@@ -51,7 +51,14 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 
 ### Python Dependencies
 - Anaconda ()
-- PyTorch ()
+- Python 3.7
+- PyTorch 1.0
+- Scikit-image 0.14.3
+- Xlwt 1.3.0
+- Numpy 1.15.4
+- PIL 6.1.0
+- Pandas 0.23.4
+
 - 
 
 
