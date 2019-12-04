@@ -50,29 +50,122 @@ DL-SIM and DL-SRRF packages have been tested on both a computer cluster, a regul
 *Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access it for free with limitations. See instructions [here](). 
 
 ### Python Dependencies
-- Anaconda ()
+- Anaconda3-4.7.12
 - Python 3.7
-- PyTorch 1.0
+- PyTorch 1.3.0
 - Scikit-image 0.14.3
 - Xlwt 1.3.0
 - Numpy 1.15.4
 - PIL 6.1.0
 - Pandas 0.23.4
 
-- 
 
+## 0. Installation guide
 
-## 0. Installation Guide;
-
-1. Download and install Anaconda follow the instructions [online](https://www.anaconda.com/distribution/). 
-2. XXX
-3. XXX
-4. XXX
+1. Install Anaconda3 follow the instructions [online](https://www.anaconda.com/distribution/). 
+2. Create environment
+   ~~~
+   conda create -n your_env_name python=3.7
+   ~~~
+3. Activate the environment and install python dependencies
+   
+    ~~~
+    Source activate your_env_name
+    conda install -c pytorch pytorch
+	conda install -c anaconda scikit-image
+	conda install -c anaconda xlwt
+	conda install -c anaconda pil
+	conda install -c anaconda pandas
+    ~~~
+4. Download ImageJ/Fiji
+   https://imagej.net/Fiji/Downloads
 
 ## 1. Prepare training dataset
 
+### data augmentation
+
+In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (width x height x frame). To prepare the input for U-Net-SIM15, the raw stack was cropped into 128 × 128 × 15 (width x height x frame) patches. For U-Net-SIM3, only the first phase of three illumination angles were used, producing 128 × 128 pixels × 3 frames patches. In SRRF experiment, the original input images were cropped into 64 × 64 × 5 (width x height x frame) and the original ground truth images were cropped into 320 × 320 (width x height). Since U-Net requires the width and height of the input images to match the ground truth images, we resized the input dataset using the biocubic interpolation function of Fiji.
+
+*SIM_prepare_dataset.py*: This file is used to do dataset cropping for the SIM experiment.
+
+*SRRF_prepare_dataset.py*: This file is used to do dataset cropping for the SRRF experiment.
+
+### data normalization
+Normalization is also important to the efficiency and robustness of the network. We normalized the input images to the maximum intensity (MI) of the whole input dataset and the ground truth images to the MI of the SIM reconstruction dataset. 
+
+*datarage.py*: This file is be used to determine the intensity ranges of your own dataset. The value of max_in and max_out will be used to normalize the datasets.
+
+###	Separate dataset
+After dataset augmentation, we obtained 800-1500 samples for different structures, which were then randomly divided into training, validation and testing subsets. Detailed information about each dataset is in Supplementary Table 1 of our manuscript.
+
 ## 2. Train a network
 
-## 3. Validate on real samples
+### 2.1 U-Net
+For the details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
 
-## 4. Troubleshooting
+Files below are used for the training of four different networks in the paper:
+
+    1. training_U-Net-SIM3.py;
+    2. training_U-Net-SIM15.py; 
+    3. training_U-Net-SNR.py; 
+    4. training_U-Net-SRRF.py
+
+Files below are used for the testing of four different networks in the paper:
+
+    1. testing_U-Net-SIM3.py; 
+    2. testing_U-Net-SIM15.py;
+    3. testing_U-Net-SNR.py; 
+    4. testing_U-Net-SRRF.py: 
+**please modify data pathes and data ranges in the code before use**
+
+For *train_U-Net-SIM3.py*, *train_U-Net-SIM15.py* and *train_U-Net-SNR.py*, in class *ReconsDataset(*torch.utils.data.Dataset*)* , change the value of max_out, max_in and train_in_size. The value of  train_in_size is the number of channels of the input. Before use *train _U-Net-SRRF.py*, please use *SRRF_prepare_dataset.py* to generate the Max_intensity.npy for your dataset. 
+
+### 2.2 scU-Net
+
+For the details of each network architecture are shown in *unet_model.py* and *unet_parts.py*.
+
+Files below are used for the training of scU-Net in the paper:
+
+    1. training_scU-Net.py 
+**please modify the value of max_out, max_in and train_in_size**
+
+Files below are used for the testing of scU-Net in the paper:
+
+    1. testing_scU-Net.py 
+**please modify the value of max_out, max_in and train_in_size**
+
+## 3.Quantification of the training performance
+
+RSP and RSE were introduced before to assess the quality of super-resolution data and were calculated using NanoJ-NanoJ-SQUIRREL (https://bitbucket.org/rhenriqueslab/nanoj-squirrel/wiki/Home). 
+
+The resolution of each cropped image was estimated using the ImageDecorrleationAnalysis plugin in Fiji/ImageJ with the default parameter settings.
+
+*Peak signal-to-noise ratio (PSNR)*, *normalized root-mean-square error (NRMSE)* and *structural similarity index (SSIM)* were calcualted with a home-writtin script (*performance.py*). 
+
+## 4. Run the demo
+
+**set up the enviroment before use**
+
+### 4.1 Run the training code
+    Step 1: download the code from the folder Training_codes
+    Step 2: prepare the training dataset
+    Step 3: modify the file path and data range (normalization)
+    Step 4: open the terminal 
+    Step 5: run: source activate your_env_name
+    Step 6: cd /file_path_for_training_code
+    Step 7: run: python train_***.py
+    Step 8: check the model
+
+### 4.2 Run the testing cod
+    Step 1: download the code from the “Testing_codes”
+    Step 2: download the data from the “Testing_data”
+    Step 3: modify the file path and data range (normalization)
+    Step 4: open the terminal
+    Step 5: run: source activate your_env_name
+    Step 6: cd /file_path_for_testing_code
+    Step 7: run: python testing_***.py
+    Step 8: check the prediction images.
+    Step 9: Expected output was prepared in the folder “Testing_results”
+
+
+## 5. Troubleshooting
