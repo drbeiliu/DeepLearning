@@ -1,12 +1,12 @@
 # Deep learning enables structured illumination microscopy with low light levels and enhanced speed
-Structured illumination microscopy (SIM) [1](https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2818.2000.00710.x), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2397368/)  is one of most popular SR techniques in biological studies. Typically, it requires 9 (2D) or 15 (3D) images to compute a high resolution image. The microscope has to be well charactorized and the parameters for reconstrution need to be fine tune to avoid artifacts during reconstrution [3](https://www.sciencedirect.com/science/article/pii/S003040181831054X?via%3Dihub). During to the complexity, there are not many ready-to-use, open-source packages serving the reconstruction purpose [4](https://academic.oup.com/bioinformatics/article/32/2/318/1744618), [5](https://ieeexplore.ieee.org/document/7400963), [6](https://www.nature.com/articles/ncomms10980). 
+Structured illumination microscopy (SIM) [1](https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2818.2000.00710.x), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2397368/)  is one of most popular SR techniques in biological studies. Typically, it requires 9 (2D) or 15 (3D) images to compute a high resolution image. The microscope has to be well charactorized and the parameters for reconstrution need to be fine tuned to avoid artifacts during reconstrution [3](https://www.sciencedirect.com/science/article/pii/S003040181831054X?via%3Dihub). During to the complexity, there are not many ready-to-use, open-source packages serving the reconstruction purpose [4](https://academic.oup.com/bioinformatics/article/32/2/318/1744618), [5](https://ieeexplore.ieee.org/document/7400963), [6](https://www.nature.com/articles/ncomms10980). 
 
 Super-resolution optical fluctuation imaging (SOFI) [7](https://www.ncbi.nlm.nih.gov/pubmed/20018714), [8](https://www.ncbi.nlm.nih.gov/pubmed/20940780) , Bayesian analysis of the blinking and bleaching (3B analysis)[9](https://www.ncbi.nlm.nih.gov/pubmed/22138825?dopt=Abstract&holding=npg), [10](https://www.nature.com/articles/nmeth.2342)  and super-resolution radial fluctuations (SRRF)[11](https://www.nature.com/articles/ncomms12471)  are pure computational analysis based approaches to retrieve high frequency information from the time serial image data. They are independent with the imaging platform and are compatible with most of the probes. However, they retrieve SR information by analyzing the spatial-temporal fluctuation from 200~1000 timelapse data, limiting the temporal resolution.
 
-We adopt deep learning to serve the purpose of SIM (DL-SIM) and SRRF (DL-SRRF) reconstruction, particularly with reduced number of frames. We could also restore high resolution information from raw data with extreme low photon budgets. 
+We adopted deep learning to serve the purpose of SIM (DL-SIM) and SRRF (DL-SRRF) reconstruction, particularly with reduced number of frames. We could also restore high resolution information from raw data with extreme low photon budgets. 
 
    
-Specifically, we have trained 4 models with differnet input and groud truth:
+Specifically, we trained 4 models with different input and ground truth:
 
 |Model #             |Input                        |           Ground truth    |
 |---                 |---                          |--- |
@@ -18,9 +18,9 @@ Specifically, we have trained 4 models with differnet input and groud truth:
 ## Keys
 
 1. DL-SIM and DL-SRRF serve as an engine to perform SIM and SRRF reconstructions
-2. U-Net-SIM could do SIM reconstruction with as few as 3 frames, instead of 9 or 15 frames
-3. U-Net-SRRF could do SRRF with as low as 5 frames, instead of 200 frames
-4. scU-Net  could recover images from raw data with extreme low photon budgets (low SNR)
+2. U-Net-SIM does SIM reconstruction with as few as 3 frames, instead of 9 or 15 frames
+3. U-Net-SRRF does SRRF reconstruction with as low as 5 frames, instead of 200 frames
+4. scU-Net recovers images from raw data with extreme low photon budgets (low SNR)
 
 All models have been trained with four different cellular structures, including **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
 
@@ -87,7 +87,7 @@ DL-SIM and DL-SRRF packages have been tested on both a cluster, a regular PC and
 
 ### data augmentation
 
-In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (w x h x f, width x height x frame). To prepare the input for U-Net-SIM15, the raw stack was cropped into 128 × 128 × 15 (w x h x f) patches. For U-Net-SIM3, only the first phase of three illumination angles were used, producing 128 × 128 × 3 (w x h x f) patches. In SRRF experiment, the original input images were cropped into 64 × 64 × 5 (w x h x f) and the original ground truth images were cropped into 320 × 320 (w x h). Since U-Net requires the width and height of the input images to match the ground truth images, we resized the input dataset using the biocubic interpolation function of Fiji.
+In SIM experiments, the size of the raw image stack was 512 × 512 × 15 (w x h x f, width x height x frame). To prepare the input for U-Net-SIM15, the raw stack was cropped into 128 × 128 × 15 (w x h x f) patches. For U-Net-SIM3, only the first phase of the three illumination angles were used, producing 128 × 128 × 3 (w x h x f) patches. In SRRF experiment, the original input images were cropped into 64 × 64 × 5 (w x h x f) and the original ground truth images were cropped into 320 × 320 (w x h). Since U-Net requires the width and height of the input images to match the ground truth images, we resized the input dataset using the biocubic interpolation function of Fiji.
 
 *SIM_prepare_dataset.py*: This file is used to do dataset cropping for the SIM experiment.
 
@@ -178,6 +178,6 @@ The resolution of each cropped image was estimated using the ImageDecorrleationA
 ## 5. Time estimation
 Installing and configuring the python enviroment take about 1 hour. It may vary depending on the speed of the network. 
 
-Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. It may vary depending on the sample size, batch size and the frequency to save the intermediate models. 
+Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. It may vary depending on the sample size, batch size and the frequency of saving the intermediate models. 
 
 Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting in the time to load the model).
