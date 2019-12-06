@@ -1,9 +1,10 @@
+
 # Deep learning enables structured illumination microscopy with low light levels and enhanced speed
-Structured illumination microscopy (SIM) [1](https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2818.2000.00710.x), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2397368/)  is one of most popular SR techniques in biological studies. Typically, it requires 9 (2D) or 15 (3D) images to compute a high resolution image. The microscope has to be well charactorized and the parameters for reconstrution need to be fine tuned to avoid artifacts during reconstrution [3](https://www.sciencedirect.com/science/article/pii/S003040181831054X?via%3Dihub). Very few open-source packages are avaliable to handle SIM data [4](https://academic.oup.com/bioinformatics/article/32/2/318/1744618), [5](https://ieeexplore.ieee.org/document/7400963), [6](https://www.nature.com/articles/ncomms10980). 
+Structured illumination microscopy (SIM) [[1](https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2818.2000.00710.x), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2397368/)]  is one of most popular superresolution techniques in biological microscopy. Typically, it requires nine 2D or fifteen 3D images to compute a high resolution image. The microscope has to be well charactorized and the parameters for reconstrution need to be fine tuned to avoid artifacts during reconstrution [[3](https://www.sciencedirect.com/science/article/pii/S003040181831054X?via%3Dihub)]. Very few open-source packages are avaliable to handle SIM data [[4](https://academic.oup.com/bioinformatics/article/32/2/318/1744618), [5](https://ieeexplore.ieee.org/document/7400963), [6](https://www.nature.com/articles/ncomms10980)]. 
 
-Super-resolution optical fluctuation imaging (SOFI) [7](https://www.ncbi.nlm.nih.gov/pubmed/20018714), [8](https://www.ncbi.nlm.nih.gov/pubmed/20940780) , Bayesian analysis of the blinking and bleaching (3B analysis)[9](https://www.ncbi.nlm.nih.gov/pubmed/22138825?dopt=Abstract&holding=npg), [10](https://www.nature.com/articles/nmeth.2342)  and super-resolution radial fluctuations (SRRF)[11](https://www.nature.com/articles/ncomms12471)  are pure computational analysis based approaches to retrieve high frequency information from the time serial image data. They are independent with the imaging platform and are compatible with most of the probes. However, they retrieve SR information by analyzing the spatial-temporal fluctuation from 200~1000 timelapse data, limiting the temporal resolution.
+Super-resolution optical fluctuation imaging (SOFI) [[7](https://www.ncbi.nlm.nih.gov/pubmed/20018714), [8](https://www.ncbi.nlm.nih.gov/pubmed/20940780)] , Bayesian analysis of blinking and bleaching (3B analysis) [[9](https://www.ncbi.nlm.nih.gov/pubmed/22138825?dopt=Abstract&holding=npg), [10](https://www.nature.com/articles/nmeth.2342)]  and super-resolution radial fluctuations (SRRF) [[11](https://www.nature.com/articles/ncomms12471)] are pure computational analyses based approaches to retrieve high frequency information from time serial image data. They are independent of the imaging platform and are compatible with most of the probes. However, they retrieve SR information by analyzing the spatial-temporal fluctuations from 200~1000 timelapse image, limiting the temporal resolution.
 
-We adopted deep learning to serve the purpose of SIM (DL-SIM) and SRRF (DL-SRRF) reconstruction, particularly with reduced number of frames. We could also restore high resolution information from raw data with extreme low photon budgets. 
+We adopted deep learning to serve the purpose of SIM (DL-SIM) and SRRF (DL-SRRF) reconstruction, particularly with a reduced number of frames. We could also restore high resolution information from raw data with extreme low photon budgets. 
 
    
 Specifically, we trained 4 models with different input and ground truth:
@@ -22,7 +23,7 @@ Specifically, we trained 4 models with different input and ground truth:
 3. U-Net-SRRF does SRRF reconstruction with as low as 5 frames, instead of 200 frames
 4. scU-Net recovers images from raw data with extreme low photon budgets (low SNR)
 
-All models have been trained with four different cellular structures, including **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
+All models were trained with four different cellular structures: **microtubules**, **mitochondrial**, **adhesion structures** and **actin filaments**. 
 
 ## Folders organization
 
@@ -30,9 +31,9 @@ All models have been trained with four different cellular structures, including 
 | --- | --- |                   
 |1. Data_preprocessing| Python codes to prepare datasets, calculates psnr, nrmse, etc|
 |2. Fiji-scripts     | ImageJ/Fiji scripts to prepare traning datasets, calculate RSP etc.|
-|3. Testing_codes| Codes for the testing of differenct networks|
+|3. Testing_codes| Codes for the testing of different networks|
 |4. Testing_data| Raw data for the testing of microtubule networks|
-|5. Training_data| Codes for the training of differenct networks|
+|5. Training_data| Codes for the training of different networks|
 |6. longleaf-instructions | useful commands to work on longleaf (a Linux-based cluster at UNC)|
 |7. test_json| use .json file to configure the training/testing parameters (under construction)
 |8. test_models | codes for both training and testing (under construction)|
@@ -41,7 +42,7 @@ All models have been trained with four different cellular structures, including 
 ## System Requirements
 DL-SIM and DL-SRRF packages have been tested on both a cluster, a regular PC and Google Colab. 
 ### Hardware requirements
-*Cluster*: we use the Longleaf cluster (Linux-based) on UNC-Chapel Hill campus. The detailed information can be found [here](https://its.unc.edu/research-computing/longleaf-cluster/). 
+*Cluster*: we use the Longleaf cluster (Linux-based) on UNC-Chapel Hill campus. Detailed information can be found [here](https://its.unc.edu/research-computing/longleaf-cluster/). 
 
 *PC*: we also tested our code on a Dell workstation (Dell Precision Tower 5810 ):
 - OS: Window 10
@@ -49,7 +50,7 @@ DL-SIM and DL-SRRF packages have been tested on both a cluster, a regular PC and
 - Memory: 128 Gb
 - Graphics card: Nvidia GeForce GTX1080 Ti, 11 Gb memory
 
-*Google Colab*: we also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access google colab for free with time limitations. [Colab](https://colab.research.google.com/notebooks/welcome.ipynb) section is under construction.
+*Google Colab*: We also tested our code on Google colabotory, which allows you to run the code in the cloud. You can access google colab for free with time limitations. The [Colab](https://colab.research.google.com/notebooks/welcome.ipynb) section is under construction.
 
 ### Python Dependencies
 - Anaconda3-4.7.12
@@ -64,7 +65,7 @@ DL-SIM and DL-SRRF packages have been tested on both a cluster, a regular PC and
 
 ## 0. Installation guide
 
-1. Install Anaconda3 follow the instructions [online](https://www.anaconda.com/distribution/). 
+1. Install Anaconda3 following the instructions [online](https://www.anaconda.com/distribution/). 
 2. Create environment
    ~~~
    conda create -n your_env_name python=3.7
@@ -119,13 +120,13 @@ Files below are used for the testing of four different networks in the paper:
     2. testing_U-Net-SIM15.py;
     3. testing_U-Net-SNR.py; 
     4. testing_U-Net-SRRF.py: 
-**please modify file pathes and data ranges in the code before use**  
+**please modify file path and data ranges in the code before use**  
 
 how to --->
 
  *train_U-Net-SIM3.py*, *train_U-Net-SIM15.py* and *train_U-Net-SNR.py* :
  
- In class *ReconsDataset(*torch.utils.data.Dataset*)* , change the value of max_out, max_in and train_in_size. The value of  train_in_size is the number of channels of the input. Before use *train _U-Net-SRRF.py*, please use *SRRF_prepare_dataset.py* to generate the Max_intensity.npy for your dataset. 
+ In class *ReconsDataset(*torch.utils.data.Dataset*)* , change the value of max_out, max_in and train_in_size. The value of  train_in_size is the number of channels of the input. Before using *train _U-Net-SRRF.py*, please use *SRRF_prepare_dataset.py* to generate the Max_intensity.npy for your dataset. 
 
 ### 2.2 scU-Net
 
@@ -145,7 +146,7 @@ Files below are used for the testing of scU-Net in the paper:
 
 RSP and RSE were introduced before to assess the quality of super-resolution data and were calculated using NanoJ-NanoJ-SQUIRREL (https://bitbucket.org/rhenriqueslab/nanoj-squirrel/wiki/Home). 
 
-The resolution of each cropped image was estimated using the ImageDecorrleationAnalysis plugin in Fiji/ImageJ with the default parameter settings. [12](https://www.nature.com/articles/s41592-019-0515-7)
+The resolution of each cropped image was estimated using the ImageDecorrleationAnalysis plugin in Fiji/ImageJ with the default parameter settings. [[12](https://www.nature.com/articles/s41592-019-0515-7)]
 
 *Peak signal-to-noise ratio (PSNR)*, *normalized root-mean-square error (NRMSE)* and *structural similarity index (SSIM)* were calcualted with a home-writtin script (*performance.py*). 
 
@@ -176,8 +177,8 @@ The resolution of each cropped image was estimated using the ImageDecorrleationA
 
 
 ## 5. Time estimation
-Installing and configuring the python enviroment take about 1 hour. It may vary depending on the speed of the network. 
+Installing and configuring the python enviroment takes about 1 hour. This may vary depending on the speed of the network. 
 
-Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. It may vary depending on the sample size, batch size and the frequency of saving the intermediate models. 
+Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. This may vary depending on the sample size, batch size and the frequency of saving the intermediate models. 
 
-Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting in the time to load the model).
+Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting the time to load the model).
