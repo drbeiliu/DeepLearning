@@ -182,3 +182,6 @@ Installing and configuring the python enviroment takes about 1 hour. This may va
 Typically, training a model on a “normal” desktop computer takes around 2 days for 2000 epoch. This may vary depending on the sample size, batch size and the frequency of saving the intermediate models. 
 
 Reconstructing a sample on a “normal” desktop computer takes about 1 second (not counting the time to load the model).
+
+## 6. Note
+Part of the code is modified from https://github.com/milesial/Pytorch-UNet 
